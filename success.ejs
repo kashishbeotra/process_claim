@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Claim Process - Success</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h1>Success!</h1>
+  <p><%= message %></p>
+  <% if (member) { %>
+    <p>Amount Avail Date: <%= member.amount_avail_date %></p>
+  <% } %>
+  <a href="/">Go back to home</a>
+</body>
+</html>

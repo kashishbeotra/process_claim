@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Claim Process - Member Details</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Member Details</h1>
+  <% if (member) { %>
+  <table class="member-table">
+    <tr>
+      <th>Member ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Insurance Type</th>
+      <th>Insured Amount</th>
+      <th>Maximum Claimable Amount</th>
+      <th>Request Date</th>
+      <th>Claim Reason</th>
+      <th>Final Claim Amount</th>
+      <th>Process Claim</th>
+      <th>Documents</th>
+    </tr>
+    <tr>
+      <td><%= member.member_id %></td>
+      <td><%= member.first_name %></td>
+      <td><%= member.last_name %></td>
+      <td><%= member.insurance_type %></td>
+      <td><%= member.insured_amount %></td>
+      <td><%= member.maximum_claimable_amount %></td>
+      <td><%= member.request_date %></td>
+      <td><%= member.claim_reason %></td>
+      <td><%= member.Final_claim_amount %></td>
+      <td>
+        <form id="claimStatusForm" action="/update-claim-status?memberId=<%= member.member_id %>" method="POST">
+          <input type="radio" id="approved" name="claimStatus" value="approved" <% if (member.process_claim === 'approved') { %>checked<% } %>>
+          <label for="approved">Approve</label>
+          <input type="radio" id="rejected" name="claimStatus" value="rejected" <% if (member.process_claim === 'rejected') { %>checked<% } %>>
+          <label for="rejected">Reject</label>
+          <button type="submit">Update Status</button>
+        </form>
+      </td>
+      <% if (member.process_claim === 'approved') { %>
+        <td id="documentFields" class="document-fields">
+          <form id="submitClaimForm" action="/submit-claim?memberId=<%= member.member_id %>" method="POST" enctype="multipart/form-data">
+            <input type="file" name="document" placeholder="Document 1">
+            <input type="file" name="document" placeholder="Document 2">
+            <input type="file" name="document" placeholder="Document 3">
+            <button type="submit">Submit Documents</button>
+          </form>
+        </td>
+      <% } else if (member.process_claim === 'rejected') { %>
+        <td id="documentFields" class="document-fields">
+          <p class="rejected-message">Claim Rejected</p>
+        </td>
+      <% } else { %>
+        <td></td>
+      <% } %>
+    </tr>
+  </table>
+  <% } else { %>
+  <p class="error-message">No data found for the specified member ID.</p>
+  <% } %>
+
+  <script src="script.js"></script>
+</body>
+</html>
